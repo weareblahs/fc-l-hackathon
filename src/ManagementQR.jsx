@@ -4,19 +4,18 @@ import { Scanner } from "@yudiel/react-qr-scanner";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { submitCheckIn } from "./APIActions";
-function QRScanning() {
+function ManagementQR() {
   const Navigate = useNavigate();
   const [value, setValue] = useState("");
   useEffect(() => {
     const data = value;
+    const Navigate = useNavigate();
     console.log(data);
     if (data.length != 0) {
       const d = data.split(",");
       const p = Cookies.get("id").split(",");
-      if (d[0] == "checkin" && p[1] == "staff") {
-        console.log(d[1]);
-        submitCheckIn(Cookies.get("user"), d[1], Date.now());
-        Navigate("/checkin");
+      if (d[0] == "harvest") {
+        Cookies.set("harvestUser", d[1]);
       } else {
         alert("Invalid QR Code");
       }
@@ -37,7 +36,7 @@ function QRScanning() {
         <div style={{ display: "block" }}>
           <div className=" mt-auto mb-auto">
             <center>
-              <h1>Scan to check in</h1>
+              <h1>Scan QR code</h1>
             </center>
             <Scanner onScan={(r) => setValue(r[0].rawValue)} />
           </div>
@@ -50,4 +49,4 @@ function QRScanning() {
   );
 }
 
-export default QRScanning;
+export default ManagementQR;

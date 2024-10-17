@@ -13,16 +13,20 @@ import {
   CardBody,
 } from "react-bootstrap";
 import "./assets/icon.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import QRCode from "react-qr-code";
 import "./styles.css";
 import { useNavigate } from "react-router-dom";
-import { point } from "./APIActions";
-export const Home = () => {
+import { cookieViewCheckin, point } from "./APIActions";
+export const Management = () => {
   const userInfo = Cookies.get("id").split(",");
   const position = [];
   const userRole = userInfo[1];
   const [pp, setpp] = useState(false);
+  useEffect(() => {
+    cookieViewCheckin();
+  }, []);
+
   const logOut = () => {
     const confirmation = confirm("Are you sure you want to log out?");
     if (confirmation) {
@@ -56,7 +60,7 @@ export const Home = () => {
         <div className="w-100">
           <Button
             className="btn btn-success btn-lg w-100 mt-2 mb-2"
-            onClick={() => Navigate("/qr")}
+            onClick={() => Navigate("/managementqr")}
           >
             <h4 className="m-0 p-0">
               <FaQrcode
@@ -64,35 +68,17 @@ export const Home = () => {
                 style={{ fontSize: "2em" }}
               />
               <br />
-              Scan QR Code
+              Record harvest info
             </h4>
           </Button>
         </div>
       </Row>
-      <Card className="w-100 ms-auto me-auto mt-2 mb-2">
-        <CardBody>
-          <h1 className="text-center">Welcome back, {userInfo[2]}</h1>
-          <h5>
-            You have {Cookies.get("points")} points. Here is your progress.
-          </h5>
-          {
-            /* mock progress bar. this only reaches first tier */
-            <ProgressBar min="0" now={Cookies.get("points")} max={50} />
-          }
-          <p className="text-center">
-            {50 - Cookies.get("points")} points remaining to reach next tier
-          </p>
-          <Button className="w-100" onClick={() => Navigate("/rewards")}>
-            <FaGift className="me-2" />
-            View rewards
-          </Button>
-        </CardBody>
-      </Card>
+
       <MapContainer
         center={{ lat: 5.6422211, lng: 118.335542 }}
         zoom={13}
         scrollWheelZoom={false}
-        style={{ height: "30vh", width: "90vw" }}
+        style={{ height: "40vh", width: "90vw" }}
         className="rounded"
       >
         <TileLayer
@@ -100,32 +86,32 @@ export const Home = () => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
       </MapContainer>
-
+      <h1>Recent check-ins</h1>
+      <div style={{ height: "40vh", width: "90vw", overflowX: "scroll" }}>
+        {JSON.parse(localStorage.getItem("recentCheckpoints"))?.data?.map(
+          (c) => {
+            const check = "test";
+            return (
+              <Card>
+                <CardBody>
+                  <div className="gap-0 mt-auto mb-auto">
+                    <Card.Title style={{ fontSize: "1.5em" }}>
+                      Checkpoint ID {c?.data?.checkpoint}
+                    </Card.Title>
+                    <Card.Subtitle></Card.Subtitle>
+                  </div>
+                </CardBody>
+              </Card>
+            );
+          }
+        )}
+      </div>
       <Modal show={pp} onHide={() => setpp(false)}>
         <Modal.Body className="p-5">
           <center>
-            <QRCode
-              size={256}
-              style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-              value={`harvest,${userInfo[0]}`}
-              viewBox={`0 0 256 256`}
-              className="w-75"
-            />
+            Signed in as {userInfo[2]} ({userInfo[0]})
           </center>
-          <center>{userInfo[0]}</center>
-          <p className="text-center">
-            Show this QR code for the supervisor to scan
-          </p>
-          <div className="w-100 mb-2">
-            {" "}
-            <Button
-              variant="success"
-              onClick={() => Navigate("/profile")}
-              className="w-100"
-            >
-              Show profile
-            </Button>
-          </div>
+
           <div className="d-flex">
             <div className="w-50 me-2">
               {" "}
