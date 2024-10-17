@@ -1,12 +1,23 @@
 import Cookies from "js-cookie";
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import { FaRegUserCircle, FaQrcode, FaGift } from "react-icons/fa";
-import { Row, Col, Button, Image, Modal } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Button,
+  Image,
+  Modal,
+  Card,
+  CardHeader,
+  ProgressBar,
+  CardBody,
+} from "react-bootstrap";
 import "./assets/icon.png";
 import { useState } from "react";
 import QRCode from "react-qr-code";
 import "./styles.css";
 import { useNavigate } from "react-router-dom";
+import { point } from "./APIActions";
 export const Home = () => {
   const userInfo = Cookies.get("id").split(",");
   const position = [];
@@ -19,6 +30,7 @@ export const Home = () => {
       window.location.reload();
     }
   };
+  point(Cookies.get("user"));
   const Navigate = useNavigate();
   return (
     <div style={{ width: "90vw" }} className="ms-auto me-auto mt-4">
@@ -41,7 +53,7 @@ export const Home = () => {
         </div>
       </div>
       <Row>
-        <div className="w-50">
+        <div className="w-100">
           <Button
             className="btn btn-success btn-lg w-100 mt-2 mb-2"
             onClick={() => Navigate("/qr")}
@@ -56,19 +68,22 @@ export const Home = () => {
             </h4>
           </Button>
         </div>
-        <div className="w-50">
-          <Button className="btn btn-primary btn-lg w-100 mt-2 mb-2">
-            <h4 className="m-0 p-0">
-              <FaGift
-                className="me-2 ms-auto me-auto button mb-2"
-                style={{ fontSize: "2em" }}
-              />
-              <br />
-              Redeem rewards
-            </h4>
-          </Button>
-        </div>
       </Row>
+      <Card className="w-100 ms-auto me-auto mt-2 mb-2">
+        <CardBody>
+          <h1 className="text-center">Welcome back, {userInfo[2]}</h1>
+          <h5>
+            You have {Cookies.get("points")} points. Here is your progress.
+          </h5>
+          {
+            /* mock progress bar. this only reaches first tier */
+            <ProgressBar min="0" now={Cookies.get("points")} max={50} />
+          }
+          <p className="text-center">
+            {50 - Cookies.get("points")} points remaining to reach next tier
+          </p>
+        </CardBody>
+      </Card>
       <MapContainer
         center={{ lat: 5.6422211, lng: 118.335542 }}
         zoom={13}
@@ -83,12 +98,7 @@ export const Home = () => {
       </MapContainer>
 
       <Modal show={pp} onHide={() => setpp(false)}>
-        <Modal.Body>
-          <Modal.Title className="text-center">My profile</Modal.Title>
-          <h1 className="text-center">{userInfo[2]}</h1>
-          <h4 className="text-center">
-            {userInfo[0]} / {userInfo[1]}
-          </h4>
+        <Modal.Body className="p-5">
           <center>
             <QRCode
               size={256}
@@ -98,9 +108,20 @@ export const Home = () => {
               className="w-75"
             />
           </center>
+          <center>{userInfo[0]}</center>
           <p className="text-center">
             Show this QR code for the supervisor to scan
           </p>
+          <div className="w-100 mb-2">
+            {" "}
+            <Button
+              variant="success"
+              onClick={() => Navigate("/profile")}
+              className="w-100"
+            >
+              Show profile
+            </Button>
+          </div>
           <div className="d-flex">
             <div className="w-50 me-2">
               {" "}

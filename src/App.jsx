@@ -7,9 +7,11 @@ import SignIn from "./SignIn";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import "leaflet/dist/leaflet.css";
 import QRScanning from "./QRScanning";
+import { Profile } from "./Profile";
 
 function App() {
   // const [token, setToken] = useState(Cookies.get("authToken") || "");
+
   return (
     <>
       {/* <TopNav data={{ token, setToken }} /> */}
@@ -18,6 +20,10 @@ function App() {
         {/* <Route path="/" /> */}
         <Route path="/" element={Cookies.get("id") ? <Home /> : <SignIn />} />
         <Route path="/qr" element={Cookies.get("id") ? <QRScanning /> : null} />
+        <Route
+          path="/profile"
+          element={Cookies.get("id") ? <Profile /> : null}
+        />
       </Routes>
     </>
   );
