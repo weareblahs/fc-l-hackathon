@@ -7,8 +7,10 @@ This is a project for a hackathon.
 Assuming you have `Node.js` installed,
 
 ```bash
-git clone https://github.com/weareblahs/fc-l-hackathon && cd fc-l-hackathon && npm i && npm run dev && chrome http://localhost:5173
+git clone https://github.com/weareblahs/fc-l-hackathon && cd fc-l-hackathon && npm i && npm run dev && http://localhost:5173
 ```
+
+(launches default browser by default)
 
 # I'm stuck at the "Staff ID" page. What should I type?
 
