@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { MapContainer, TileLayer, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { FaRegUserCircle, FaQrcode, FaGift } from "react-icons/fa";
 import {
   Row,
@@ -86,6 +86,9 @@ export const Management = () => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        <Marker position={{ lat: 5.6422211, lng: 118.335542 }}>
+          <Popup>Checkpoint 1</Popup>
+        </Marker>
       </MapContainer>
       <h1>Recent check-ins</h1>
       <div style={{ height: "40vh", width: "90vw", overflowX: "scroll" }}>
