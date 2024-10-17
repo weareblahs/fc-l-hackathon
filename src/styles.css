@@ -1,0 +1,7 @@
+.userHover:hover {
+  background-color: #cccccc;
+  transition: 0.3s;
+}
+.userHover {
+  margin: 0px;
+}
