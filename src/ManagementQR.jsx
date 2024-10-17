@@ -9,13 +9,14 @@ function ManagementQR() {
   const [value, setValue] = useState("");
   useEffect(() => {
     const data = value;
-    const Navigate = useNavigate();
+
     console.log(data);
     if (data.length != 0) {
       const d = data.split(",");
       const p = Cookies.get("id").split(",");
       if (d[0] == "harvest") {
         Cookies.set("harvestUser", d[1]);
+        Navigate("/harvest");
       } else {
         alert("Invalid QR Code");
       }

@@ -121,3 +121,44 @@ export const cookieViewCheckin = () => {
       );
     });
 };
+
+export const addPoints = (u, p) => {
+  // u = user
+  // p = points
+  // note: 1 harvest = 1 point according to that hard-coded system
+  console.log(u, p);
+  axios
+    .get(`https://fclintraprojectapi-2c9b.api.codehooks.io/main/users/${u}`, {
+      headers,
+    })
+    .then((res) => {
+      Cookies.set("userPointID", res.data.pointID);
+    });
+  axios
+    .get(
+      `https://fclintraprojectapi-2c9b.api.codehooks.io/main/points/${Cookies.get(
+        "userPointID"
+      )}`,
+      {
+        headers,
+      }
+    )
+    .then((res) => {
+      Cookies.set("points", res.data.points);
+    });
+  axios
+    .put(
+      `https://fclintraprojectapi-2c9b.api.codehooks.io/main/points/${Cookies.get(
+        "userPointID"
+      )}`,
+      { user: u, points: parseInt(Cookies.get("points")) + parseInt(p) },
+      {
+        headers,
+      }
+    )
+    .then((res) => {
+      alert(
+        `${p} points added. Current user's balance is now ${res.data.points} points`
+      );
+    });
+};

@@ -18,6 +18,7 @@ import QRCode from "react-qr-code";
 import "./styles.css";
 import { useNavigate } from "react-router-dom";
 import { cookieViewCheckin, point } from "./APIActions";
+import moment from "moment";
 export const Management = () => {
   const userInfo = Cookies.get("id").split(",");
   const position = [];
@@ -90,15 +91,19 @@ export const Management = () => {
       <div style={{ height: "40vh", width: "90vw", overflowX: "scroll" }}>
         {JSON.parse(localStorage.getItem("recentCheckpoints"))?.data?.map(
           (c) => {
+            // dummy data, except the time
             const check = "test";
             return (
               <Card>
                 <CardBody>
                   <div className="gap-0 mt-auto mb-auto">
                     <Card.Title style={{ fontSize: "1.5em" }}>
-                      Checkpoint ID {c?.data?.checkpoint}
+                      Checkpoint 1
                     </Card.Title>
-                    <Card.Subtitle></Card.Subtitle>
+                    <Card.Subtitle>
+                      Checked in by Staff 1 on{" "}
+                      {moment(c?.data?.time).format("MMMM Do, YYYY, h:mm A")}
+                    </Card.Subtitle>
                   </div>
                 </CardBody>
               </Card>
