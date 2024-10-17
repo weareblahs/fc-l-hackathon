@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Container } from "react-bootstrap";
+import { Container, Button } from "react-bootstrap";
 import { Scanner } from "@yudiel/react-qr-scanner";
-function App() {
+import { useNavigate } from "react-router-dom";
+function QRScanning() {
+  const Navigate = useNavigate();
   return (
     <>
       <Container
@@ -20,10 +22,13 @@ function App() {
             </center>
             <Scanner onScan={(r) => console.log(r[0].rawValue)} />
           </div>
+          <Button className="w-100 mt-2" onClick={() => Navigate("/")}>
+            Back to home
+          </Button>
         </div>
       </Container>
     </>
   );
 }
 
-export default App;
+export default QRScanning;

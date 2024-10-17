@@ -1,16 +1,25 @@
 import Cookies from "js-cookie";
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
-import { FaRegUserCircle, FaQrcode } from "react-icons/fa";
+import { FaRegUserCircle, FaQrcode, FaGift } from "react-icons/fa";
 import { Row, Col, Button, Image, Modal } from "react-bootstrap";
-import "../public/icon.png";
+import "./assets/icon.png";
 import { useState } from "react";
 import QRCode from "react-qr-code";
 import "./styles.css";
+import { useNavigate } from "react-router-dom";
 export const Home = () => {
   const userInfo = Cookies.get("id").split(",");
   const position = [];
   const userRole = userInfo[1];
   const [pp, setpp] = useState(false);
+  const logOut = () => {
+    const confirmation = confirm("Are you sure you want to log out?");
+    if (confirmation) {
+      Cookies.remove("id");
+      window.location.reload();
+    }
+  };
+  const Navigate = useNavigate();
   return (
     <div style={{ width: "90vw" }} className="ms-auto me-auto mt-4">
       <div className="d-flex mb-2">
@@ -25,16 +34,41 @@ export const Home = () => {
         <div className="w-50 text-end ms-2 me-2 ">
           {" "}
           <Image
-            src="../public/icon.png"
+            src="./assets/icon.png"
             className="img-responsive"
             width={"32px"}
           />
         </div>
       </div>
-      <Button className="btn btn-success btn-lg w-100 mt-2 mb-2">
-        <FaQrcode />
-        {userRole == "worker" ? " Scan QR Code" : " Scan to check harvest"}
-      </Button>
+      <Row>
+        <div className="w-50">
+          <Button
+            className="btn btn-success btn-lg w-100 mt-2 mb-2"
+            onClick={() => Navigate("/qr")}
+          >
+            <h4 className="m-0 p-0">
+              <FaQrcode
+                className="me-2 ms-auto me-auto button mb-2"
+                style={{ fontSize: "2em" }}
+              />
+              <br />
+              Scan QR Code
+            </h4>
+          </Button>
+        </div>
+        <div className="w-50">
+          <Button className="btn btn-primary btn-lg w-100 mt-2 mb-2">
+            <h4 className="m-0 p-0">
+              <FaGift
+                className="me-2 ms-auto me-auto button mb-2"
+                style={{ fontSize: "2em" }}
+              />
+              <br />
+              Redeem rewards
+            </h4>
+          </Button>
+        </div>
+      </Row>
       <MapContainer
         center={{ lat: 5.6422211, lng: 118.335542 }}
         zoom={13}
@@ -49,20 +83,46 @@ export const Home = () => {
       </MapContainer>
 
       <Modal show={pp} onHide={() => setpp(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>My profile</Modal.Title>
-        </Modal.Header>
         <Modal.Body>
+          <Modal.Title className="text-center">My profile</Modal.Title>
           <h1 className="text-center">{userInfo[2]}</h1>
           <h4 className="text-center">
             {userInfo[0]} / {userInfo[1]}
           </h4>
+          <center>
+            <QRCode
+              size={256}
+              style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+              value={`[harvest,${userInfo[0]}]`}
+              viewBox={`0 0 256 256`}
+              className="w-75"
+            />
+          </center>
+          <p className="text-center">
+            Show this QR code for the supervisor to scan
+          </p>
+          <div className="d-flex">
+            <div className="w-50 me-2">
+              {" "}
+              <Button
+                variant="secondary"
+                onClick={() => setpp(false)}
+                className="w-100"
+              >
+                Close
+              </Button>
+            </div>
+            <div className="w-50">
+              <Button
+                variant="danger"
+                onClick={() => logOut()}
+                className="w-100"
+              >
+                Log out
+              </Button>
+            </div>
+          </div>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setpp(false)}>
-            Close
-          </Button>
-        </Modal.Footer>
       </Modal>
     </div>
   );

@@ -7,7 +7,7 @@ import {
   FormLabel,
   Image,
 } from "react-bootstrap";
-import "../public/iconextended.png";
+import "./assets/iconextended.png";
 import Cookies from "js-cookie";
 import { GetUserInfo, postSignIn } from "./APIActions";
 function SignIn() {
@@ -32,7 +32,7 @@ function SignIn() {
     >
       <div style={{ display: "block" }}>
         <center>
-          <Image src="../public/iconextended.png" className="w-50"></Image>
+          <Image src="/assets/iconextended.png" className="w-50"></Image>
           <Form className="text-center w-50">
             <FormLabel>Staff ID</FormLabel>
             <FormControl

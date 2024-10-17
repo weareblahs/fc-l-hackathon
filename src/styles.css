@@ -5,3 +5,7 @@
 .userHover {
   margin: 0px;
 }
+
+.button {
+  text-transform: none !important;
+}
