@@ -7,6 +7,7 @@ import {
   FaAngleLeft,
   FaArrowCircleLeft,
   FaIdBadge,
+  FaSignInAlt,
   FaUser,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -69,7 +70,7 @@ export const Profile = () => {
           <i>{50 - Cookies.get("points")} points left to reach silver tier</i>
         </h4>
         <div className="mb-2">
-          <h2>Digital Badges</h2>
+          <h2>Recent check-in locations</h2>
         </div>
       </div>
       <div style={{ width: "90vw" }} className="ms-auto me-auto">
@@ -93,7 +94,7 @@ export const Profile = () => {
                       fontSize: "1.5em",
                     }}
                   >
-                    <FaIdBadge />
+                    <FaSignInAlt />
                   </h1>
                 </div>
                 <div className="gap-0 mt-auto mb-auto">
